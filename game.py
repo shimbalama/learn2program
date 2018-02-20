@@ -3,10 +3,10 @@
 import pygame #import the library
 import time
 import random
-#2do - make a module to see the dimensions of objects and understand interactions
+
 pygame.init() #initialise the library
 
-display_width = 1000 #make a variable of type int called display_width and set it to 800
+display_width = 1000 #make a variable of type int called display_width
 display_height = 700
 
 black  = (0,0,0) #make a variable of type tuple (a container the holds ints) called black and set it to (0,0,0) - a tuple of 3 ints
@@ -25,17 +25,37 @@ carImg = pygame.image.load('racecar.jpeg') #use the load function of the image c
 # Here we define functions to use in the game
 
 def blocks(blockx, blocky, blockw, blockh, color):
+    
+    '''
+    Draws rectangular blocks of the given dimensions
+    '''
+    
     pygame.draw.rect(gameDisplay, color, [blockx, blocky, blockw, blockh])
 
 def car(x, y): #Define a function called 'car' which takes teh parameters x and y
+    
+    '''
+    Displays car
+    '''
+    
     gameDisplay.blit(carImg, (x, y)) #Give 2 parameters to the function blit - carImg and the tuple (x, y).  
 
 def text_objects(text, font):
+    
+    '''
+    Sends text to screen
+    '''
+    
     textSurface = font.render(text, True, black)
+    
     return textSurface, textSurface.get_rect()
 
 def message_display(text, size, x_pos):
 
+    '''
+    Manages the details of the text to screen
+    '''
+    
     this_text = pygame.font.Font('freesansbold.ttf', size)
     TextSurf, TextRect = text_objects(text, this_text)
     TextRect.center = ((display_width/2),(display_height/x_pos))
@@ -44,6 +64,11 @@ def message_display(text, size, x_pos):
     time.sleep(1)
 
 def crash():
+    
+    '''
+    Handle a crash where the car hits the wall or block
+    '''
+    
     message_display('You Crashed!!', 111, 2)# Calls above
     message_display('Any key to start again', 55, 1.1)# Calls above
     for event in pygame.event.get():
@@ -52,6 +77,11 @@ def crash():
 
 #this is the most important bit - it keeps the game running!
 def game_loop():
+    
+    '''
+    The main loop that runs the game
+    '''
+
     x = (display_width * 0.45) #set x to be a variable of type float which equals the existing variable 'display_width' times (*) 0.55
     y = (display_height * 0.6)
     x_change = 0
@@ -67,6 +97,7 @@ def game_loop():
     
     gameExit = False
     while not gameExit:
+        block_speed +=0.01
         for event in pygame.event.get():
             #Exit
             if event.type == pygame.QUIT:
@@ -97,7 +128,10 @@ def game_loop():
         gameDisplay.fill(white)# Make background white
         
         # blocks - call previoulsy defined functions
-        blocks(block_startx, block_starty, block_width, block_height, black)
+        block_colour = black
+        if block_speed > 12.0:
+            block_colour = red    
+        blocks(block_startx, block_starty, block_width, block_height, block_colour)
         block_starty += block_speed
         car(x,y)
 
@@ -110,10 +144,11 @@ def game_loop():
             block_startx = random.randrange(0,display_width)
         
         #detect block crash
-        if y < block_starty + block_height:
+        block_y_coordinates = set(list(range(int(block_starty), int(block_starty) + int(block_height))))
+        car_y_coordinates = set(list(range(int(y), int(y) + car_height)))
+        if len(block_y_coordinates.intersection(car_y_coordinates)) > 1:
             block_x_coordinates = set(list(range(block_startx,block_startx + block_width)))
             car_x_coordinates = set(list(range(int(x), int(x) + car_width)))
-            
             if len(block_x_coordinates.intersection(car_x_coordinates)) > 1:# Logic - if objects share an x coordinate, they crash
                 #print (block_x_coordinates,car_x_coordinates,block_x_coordinates.intersection(car_x_coordinates))
                 crash()
