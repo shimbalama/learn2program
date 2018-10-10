@@ -96,15 +96,7 @@ def game_loop():
     #print ('Block: startx:', block_startx, 'speed:', block_speed, 'width:', block_width, 'height:',block_height)
     
     gameExit = False
-    score = 0
-    y_is_positive = False
     while not gameExit:
-        if block_starty < 0 and y_is_positive:
-            score += 1
-            print ('score',score)
-            y_is_positive = False
-        if block_starty > 0:
-            y_is_positive = True
         block_speed +=0.01
         for event in pygame.event.get():
             #Exit
