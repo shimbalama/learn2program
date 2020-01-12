@@ -1,6 +1,6 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
-
+#calculator
 '''
 These two lines tell Python that our program needs two modules. The first, "tkinter", is the standard binding to Tk,
 which when loaded also causes the existing Tk library on your system to be loaded. The second, "ttk", is Python's binding
@@ -17,11 +17,12 @@ def calculate(*args):#needs args here or hitting enter breaks
     if function_entry.get() == '*':
         results.set(float(a.get()) * float(b.get()))
     
-root = Tk()#instaniate tk
+root = tk.Tk()
+#instaniate tk
 #test at top
 root.title("Calc")
 mainframe = ttk.Frame(root, padding="2 2 3 2")#frame widget: left padding, top padding, right padding, bottom padding
-mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+mainframe.grid(column=0, row=0, sticky=('N', 'W', 'E', 'S'))
 mainframe.columnconfigure(0, weight=1)#auto strech if needed
 mainframe.rowconfigure(0, weight=1)#auto strech if needed
 
@@ -32,24 +33,24 @@ bits just tell Tk that if the main window is resized, the frame should expand to
 '''
 
 #Instanciate instances of these classes 
-a = StringVar()
-b = StringVar()
-function = StringVar()
-results = StringVar()
+a = tk.StringVar()
+b = tk.StringVar()
+function = tk.StringVar()
+results = tk.StringVar()
 
 a_entry = ttk.Entry(mainframe, width=9, textvariable=a)#widget 1 val A
-a_entry.grid(column=1, row=1, sticky=(W, E))#widget 1 placement parameters
+a_entry.grid(column=1, row=1, sticky=('W', 'E'))#widget 1 placement parameters
 
 function_entry = ttk.Entry(mainframe, width=9, textvariable=function)#widget 2 func
-function_entry.grid(column=1, row=2, sticky=(W, E))#widget 2 placement parameters
+function_entry.grid(column=1, row=2, sticky=('W', 'E'))#widget 2 placement parameters
 
 b_entry = ttk.Entry(mainframe, width=9, textvariable=b)#widget 3 Val B
-b_entry.grid(column=1, row=3, sticky=(W, E))#widget 3 placement parameters
+b_entry.grid(column=1, row=3, sticky=('W', 'E'))#widget 3 placement parameters
 
 
 
-ttk.Label(mainframe, textvariable=results).grid(column=2, row=4, sticky=(W, E))#wiget 4 is where result is shown
-ttk.Button(mainframe, text="Calculate", command=calculate).grid(column=3, row=2, sticky=W)#widget 5
+ttk.Label(mainframe, textvariable=results).grid(column=2, row=4, sticky=('W', 'E'))#wiget 4 is where result is shown
+ttk.Button(mainframe, text="Calculate", command=calculate).grid(column=3, row=2, sticky='W')#widget 5
 
 '''
 The preceding lines create the three main widgets in our program: the entry where we type the number of feet in, a
@@ -57,11 +58,11 @@ label where we put the resulting number of meters, and the calculate button that
 '''
 
 #text in body
-ttk.Label(mainframe, text="Value A").grid(column=2, row=1, sticky=W)
-ttk.Label(mainframe, text="-/+/*//").grid(column=2, row=2, sticky=W)
-ttk.Label(mainframe, text="Value B").grid(column=2, row=3, sticky=W)
+ttk.Label(mainframe, text="Value A").grid(column=2, row=1, sticky='W')
+ttk.Label(mainframe, text="-/+/*//").grid(column=2, row=2, sticky='W')
+ttk.Label(mainframe, text="Value B").grid(column=2, row=3, sticky='W')
 
-ttk.Label(mainframe, text="Equals").grid(column=1, row=4, sticky=E)
+ttk.Label(mainframe, text="Equals").grid(column=1, row=4, sticky='E')
 #ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
 
 '''
